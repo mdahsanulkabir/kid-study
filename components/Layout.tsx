@@ -45,7 +45,18 @@ export default function Layout() {
   const handleMenuClose = (e: MouseEvent<HTMLLIElement>, item: number) => {
     e.stopPropagation();
     console.log(item);
+    setAnchorEl(null);
     switch(item) {
+      case -1 : {
+        setContentList(oneLetter.sound);
+        setHeading("ধ্বনি")
+        break;
+      }
+      case 0 : {
+        setContentList(oneLetter.oneLetterWords);
+        setHeading("কার বিহীন শব্দ")
+        break;
+      }
       case 1: {
         setContentList(oneLetter.aKar);
         setHeading("আ-কার")
@@ -76,11 +87,30 @@ export default function Layout() {
         setHeading("আ-কার + ই-কার + ঈ-কার + উ-কার + ঊ-কার + ঋ-কার")
         break;
       }
+      case 7: {
+        setContentList(oneLetter.aKar.concat(oneLetter.hosroEKar, oneLetter.dirghoEKar, oneLetter.hosroUKar, oneLetter.dirghoUKar, oneLetter.rhiKar, oneLetter.eKar));
+        setHeading("আ-কার + ই-কার + ঈ-কার + উ-কার + ঊ-কার + ঋ-কার + এ-কার")
+        break;
+      }
+      case 8: {
+        setContentList(oneLetter.aKar.concat(oneLetter.hosroEKar, oneLetter.dirghoEKar, oneLetter.hosroUKar, oneLetter.dirghoUKar, oneLetter.rhiKar, oneLetter.eKar, oneLetter.oiKar));
+        setHeading("আ-কার + ই-কার + ঈ-কার + উ-কার + ঊ-কার + ঋ-কার + এ-কার + ঐ-কার")
+        break;
+      }
+      case 9: {
+        setContentList(oneLetter.aKar.concat(oneLetter.hosroEKar, oneLetter.dirghoEKar, oneLetter.hosroUKar, oneLetter.dirghoUKar, oneLetter.rhiKar, oneLetter.eKar, oneLetter.oiKar, oneLetter.oKar));
+        setHeading("আ-কার + ই-কার + ঈ-কার + উ-কার + ঊ-কার + ঋ-কার + এ-কার + ঐ-কার + ও-কার")
+        break;
+      }
+      case 10: {
+        setContentList(oneLetter.aKar.concat(oneLetter.hosroEKar, oneLetter.dirghoEKar, oneLetter.hosroUKar, oneLetter.dirghoUKar, oneLetter.rhiKar, oneLetter.eKar, oneLetter.oiKar, oneLetter.oKar, oneLetter.ouKar));
+        setHeading("আ-কার + ই-কার + ঈ-কার + উ-কার + ঊ-কার + ঋ-কার  + এ-কার + ঐ-কার + ও-কার + ঔ-কার")
+        break;
+      }
       default: {
         return;
       }
     }
-    setAnchorEl(null);
   };
 
   return (
@@ -105,12 +135,18 @@ export default function Layout() {
             //   'aria-labelledby': 'basic-button',
             // }}
           >
+            <MenuItem onClick={(e: MouseEvent<HTMLLIElement>) => handleMenuClose(e, -1)}>ধ্বনি</MenuItem>
+            <MenuItem onClick={(e: MouseEvent<HTMLLIElement>) => handleMenuClose(e, 0)}>কার বিহীন শব্দ</MenuItem>
             <MenuItem onClick={(e: MouseEvent<HTMLLIElement>) => handleMenuClose(e, 1)}>া</MenuItem>
             <MenuItem onClick={(e: MouseEvent<HTMLLIElement>) => handleMenuClose(e, 2)}>া +  ি</MenuItem>
-            <MenuItem onClick={(e: MouseEvent<HTMLLIElement>) => handleMenuClose(e, 3)}>া +  ি + ী</MenuItem>
-            <MenuItem onClick={(e: MouseEvent<HTMLLIElement>) => handleMenuClose(e, 4)}>া +  ি + ী +  ু</MenuItem>
-            <MenuItem onClick={(e: MouseEvent<HTMLLIElement>) => handleMenuClose(e, 5)}>া +  ি + ী +  ু +  ূ</MenuItem>
-            <MenuItem onClick={(e: MouseEvent<HTMLLIElement>) => handleMenuClose(e, 6)}>া +  ি + ী +  ু +  ূ +  ৃ</MenuItem>
+            <MenuItem onClick={(e: MouseEvent<HTMLLIElement>) => handleMenuClose(e, 3)}>া +  ি +  ী</MenuItem>
+            <MenuItem onClick={(e: MouseEvent<HTMLLIElement>) => handleMenuClose(e, 4)}>া +  ি +  ী +  ু</MenuItem>
+            <MenuItem onClick={(e: MouseEvent<HTMLLIElement>) => handleMenuClose(e, 5)}>া +  ি +  ী +  ু +  ূ</MenuItem>
+            <MenuItem onClick={(e: MouseEvent<HTMLLIElement>) => handleMenuClose(e, 6)}>া +  ি +  ী +  ু +  ূ +  ৃ</MenuItem>
+            <MenuItem onClick={(e: MouseEvent<HTMLLIElement>) => handleMenuClose(e, 7)}>া +  ি +  ী +  ু +  ূ +  ৃ +  ে</MenuItem>
+            <MenuItem onClick={(e: MouseEvent<HTMLLIElement>) => handleMenuClose(e, 8)}>া +  ি +  ী +  ু +  ূ +  ৃ +  ে +  ৈ</MenuItem>
+            <MenuItem onClick={(e: MouseEvent<HTMLLIElement>) => handleMenuClose(e, 9)}>া +  ি +  ী +  ু +  ূ +  ৃ +  ে +  ৈ +  ো</MenuItem>
+            <MenuItem onClick={(e: MouseEvent<HTMLLIElement>) => handleMenuClose(e, 10)}>া +  ি +  ী +  ু +  ূ +  ৃ +  ে +  ৈ +  ো + ৌ</MenuItem>
           </Menu>
         </Toolbar>
       </AppBar>
