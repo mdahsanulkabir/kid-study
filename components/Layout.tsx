@@ -41,11 +41,11 @@ export default function Layout() {
         <Paper elevation={4} sx={{ height: "500px" }} 
         className='relative flex flex-col justify-between'
         >
-          <Typography variant="h2">
+          <Typography variant="h4">
             ১ অক্ষর
           </Typography>
           <Box sx={{textAlign: 'center'}}>
-          <Typography variant="h3">
+          <Typography variant="h1">
             {current}
           </Typography>
           </Box>
