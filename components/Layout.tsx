@@ -6,12 +6,12 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import { Button } from '@mui/material';
+import { Button, Menu, MenuItem } from '@mui/material';
 import { oneLetter } from '@/data/oneLetter';
-import { useState } from 'react';
+import { MouseEvent, useState } from 'react';
 
 import localFont from 'next/font/local'
- 
+
 // Font files can be colocated inside of `app`
 const myFont = localFont({
   src: './SutonnyMJ-Bold.ttf',
@@ -20,19 +20,68 @@ const myFont = localFont({
 
 export default function Layout() {
   const [current, setCurrent] = useState<string>('')
+  const [contentList, setContentList] = useState<string[]>(oneLetter.aKar)
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [heading, setHeading] = useState<string>("আ-কার")
+  const open = Boolean(anchorEl);
 
+  // const allSingleLettersWithKar = oneLetter.aKar.concat(oneLetter.hosroEKar, oneLetter.dirghoEKar, oneLetter.hosroUKar, oneLetter.dirghoUKar, oneLetter.rhiKar)
   const handleNext = () => {
-    const randomIndex = Math.floor(Math.random() * (oneLetter.aKar.length))
-    const nextCharacter = oneLetter.aKar[randomIndex]
+    const randomIndex = Math.floor(Math.random() * (contentList.length))
+    const nextCharacter = contentList[randomIndex]
     console.log("index ", randomIndex)
     console.log("character ", nextCharacter)
     if (nextCharacter === current) {
-      console.log("double");
+      console.error("double");
       handleNext();
-    }
-
-    setCurrent(nextCharacter)
+    } else
+      setCurrent(prev => nextCharacter)
   }
+
+  const handleMenuOpen = (event: MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = (e: MouseEvent<HTMLLIElement>, item: number) => {
+    e.stopPropagation();
+    console.log(item);
+    switch(item) {
+      case 1: {
+        setContentList(oneLetter.aKar);
+        setHeading("আ-কার")
+        break;
+      }
+      case 2: {
+        setContentList(oneLetter.aKar.concat(oneLetter.hosroEKar));
+        setHeading("আ-কার + ই-কার")
+        break;
+      }
+      case 3: {
+        setContentList(oneLetter.aKar.concat(oneLetter.hosroEKar, oneLetter.dirghoEKar));
+        setHeading("আ-কার + ই-কার + ঈ-কার")
+        break;
+      }
+      case 4: {
+        setContentList(oneLetter.aKar.concat(oneLetter.hosroEKar, oneLetter.dirghoEKar, oneLetter.hosroUKar));
+        setHeading("আ-কার + ই-কার + ঈ-কার + উ-কার")
+        break;
+      }
+      case 5: {
+        setContentList(oneLetter.aKar.concat(oneLetter.hosroEKar, oneLetter.dirghoEKar, oneLetter.hosroUKar, oneLetter.dirghoUKar));
+        setHeading("আ-কার + ই-কার + ঈ-কার + উ-কার + ঊ-কার")
+        break;
+      }
+      case 6: {
+        setContentList(oneLetter.aKar.concat(oneLetter.hosroEKar, oneLetter.dirghoEKar, oneLetter.hosroUKar, oneLetter.dirghoUKar, oneLetter.rhiKar));
+        setHeading("আ-কার + ই-কার + ঈ-কার + উ-কার + ঊ-কার + ঋ-কার")
+        break;
+      }
+      default: {
+        return;
+      }
+    }
+    setAnchorEl(null);
+  };
 
   return (
     <>
@@ -44,9 +93,25 @@ export default function Layout() {
             color="inherit"
             aria-label="open drawer"
             sx={{ mr: 2 }}
+            onClick={handleMenuOpen}
           >
             <MenuIcon />
           </IconButton>
+          <Menu
+            anchorEl={anchorEl}
+            open={open}
+            onClose={(e: MouseEvent<HTMLLIElement>) => handleMenuClose(e,0)}
+            // MenuListProps={{
+            //   'aria-labelledby': 'basic-button',
+            // }}
+          >
+            <MenuItem onClick={(e: MouseEvent<HTMLLIElement>) => handleMenuClose(e, 1)}>া</MenuItem>
+            <MenuItem onClick={(e: MouseEvent<HTMLLIElement>) => handleMenuClose(e, 2)}>া +  ি</MenuItem>
+            <MenuItem onClick={(e: MouseEvent<HTMLLIElement>) => handleMenuClose(e, 3)}>া +  ি + ী</MenuItem>
+            <MenuItem onClick={(e: MouseEvent<HTMLLIElement>) => handleMenuClose(e, 4)}>া +  ি + ী +  ু</MenuItem>
+            <MenuItem onClick={(e: MouseEvent<HTMLLIElement>) => handleMenuClose(e, 5)}>া +  ি + ী +  ু +  ূ</MenuItem>
+            <MenuItem onClick={(e: MouseEvent<HTMLLIElement>) => handleMenuClose(e, 6)}>া +  ি + ী +  ু +  ূ +  ৃ</MenuItem>
+          </Menu>
         </Toolbar>
       </AppBar>
       <Box
@@ -56,8 +121,8 @@ export default function Layout() {
         <Paper elevation={4} sx={{ height: "500px" }}
           className='relative flex flex-col justify-between'
         >
-          <Typography variant="h4">
-            ১ অক্ষর
+          <Typography variant="h6">
+            {heading}
           </Typography>
           <Box sx={{ textAlign: 'center' }}>
             <Typography variant="h1" className={myFont.className}>
