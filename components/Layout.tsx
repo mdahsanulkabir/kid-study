@@ -10,6 +10,14 @@ import { Button } from '@mui/material';
 import { oneLetter } from '@/data/oneLetter';
 import { useState } from 'react';
 
+import localFont from 'next/font/local'
+ 
+// Font files can be colocated inside of `app`
+const myFont = localFont({
+  src: './SutonnyMJ-Bold.ttf',
+  display: 'swap',
+})
+
 export default function Layout() {
   const [current, setCurrent] = useState<string>('')
 
@@ -52,7 +60,7 @@ export default function Layout() {
             ১ অক্ষর
           </Typography>
           <Box sx={{ textAlign: 'center' }}>
-            <Typography variant="h1">
+            <Typography variant="h1" className={myFont.className}>
               {current}
             </Typography>
           </Box>
