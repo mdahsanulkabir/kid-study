@@ -14,8 +14,15 @@ export default function Layout() {
   const [current, setCurrent] = useState<string>('')
 
   const handleNext = () => {
-    const randomIndex = Math.ceil(Math.random()*(oneLetter.aKar.length+1))
+    const randomIndex = Math.floor(Math.random() * (oneLetter.aKar.length))
     const nextCharacter = oneLetter.aKar[randomIndex]
+    console.log("index ", randomIndex)
+    console.log("character ", nextCharacter)
+    if (nextCharacter === current) {
+      console.log("double");
+      handleNext();
+    }
+
     setCurrent(nextCharacter)
   }
 
@@ -36,18 +43,18 @@ export default function Layout() {
       </AppBar>
       <Box
         sx={{ height: "500px" }}
-        // className='mt-20'
+      // className='mt-20'
       >
-        <Paper elevation={4} sx={{ height: "500px" }} 
-        className='relative flex flex-col justify-between'
+        <Paper elevation={4} sx={{ height: "500px" }}
+          className='relative flex flex-col justify-between'
         >
           <Typography variant="h4">
             ১ অক্ষর
           </Typography>
-          <Box sx={{textAlign: 'center'}}>
-          <Typography variant="h1">
-            {current}
-          </Typography>
+          <Box sx={{ textAlign: 'center' }}>
+            <Typography variant="h1">
+              {current}
+            </Typography>
           </Box>
           <Box className='flex justify-around p-4'>
             <Button variant='contained' color="success">
