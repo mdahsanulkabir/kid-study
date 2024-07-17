@@ -14,14 +14,16 @@ export const english = [
             'P', 'Q', 'R', 'S', 'T',
             'U', 'V', 'W', 'X', 'Y',
             'Z',
-        ]
+        ],
+        instruction: "Ask the name, sound and vowel/consonant"
     },
     {
         itemName: 'vowel',
         content: [
             'a', 'e', 'i', 'o', 'u',
             'A', 'E', 'I', 'O', 'U'
-        ]
+        ],
+        instruction: "Ask the name, sound"
     },
     {
         itemName: 'consonant',
@@ -38,6 +40,7 @@ export const english = [
             'P', 'Q', 'R', 'S', 'T',
             'V', 'W', 'X', 'Y',
             'Z',
-        ]
+        ],
+        instruction: "Ask the name, sound"
     }
 ]

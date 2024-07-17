@@ -6,8 +6,9 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import { Button, List, ListItemButton, ListItemText, Menu, MenuItem } from '@mui/material';
+import { Button, Checkbox, List, ListItem, ListItemButton, ListItemText, Menu, MenuItem } from '@mui/material';
 import { oneLetter } from '@/data/oneLetter';
+import { bangla } from '@/data/bangla';
 import { MouseEvent, useState } from 'react';
 
 import localFont from 'next/font/local'
@@ -18,24 +19,58 @@ const myFont = localFont({
   display: 'swap',
 })
 
+interface ILesson {
+  id: number;
+  itemName: string;
+  content: string[];
+  instruction: string;
+}
+
+interface ICurrent {
+  itemName: string;
+  content: string;
+  instruction: string;
+}
+
 export default function Layout() {
-  const [current, setCurrent] = useState<string>('')
-  const [contentList, setContentList] = useState<string[]>(oneLetter.aKar)
+  const [current, setCurrent] = useState<ICurrent | null>(null
+    // {
+    //   itemName: "",
+    //   content: "",
+    //   instruction: ""
+    // }
+  )
+  const [contentList, setContentList] = useState<ILesson[]>([
+    // {
+    //   id: 0,
+    //   itemName: "",
+    //   content: [""],
+    //   instruction: ""
+    // }
+  ])
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [heading, setHeading] = useState<string>("আ-কার")
+  const [heading, setHeading] = useState<string>("Select Lession(s)")
   const open = Boolean(anchorEl);
+
+  const [checked, setChecked] = useState<number[]>([]);
+
 
   // const allSingleLettersWithKar = oneLetter.aKar.concat(oneLetter.hosroEKar, oneLetter.dirghoEKar, oneLetter.hosroUKar, oneLetter.dirghoUKar, oneLetter.rhiKar)
   const handleNext = () => {
-    const randomIndex = Math.floor(Math.random() * (contentList.length))
-    const nextCharacter = contentList[randomIndex]
-    console.log("index ", randomIndex)
-    console.log("character ", nextCharacter)
-    if (nextCharacter === current) {
+    const randomItemNameIndex = Math.floor(Math.random() * (contentList.length))
+    const nextItemName = contentList[randomItemNameIndex]
+    console.log("Next Item ", nextItemName)
+    const nextContentObject = {
+      itemName: nextItemName.itemName,
+      content: nextItemName.content[Math.floor(Math.random() * (nextItemName.content.length))],
+      instruction: nextItemName.instruction
+    }
+    console.log("Lesson object ", nextContentObject)
+    if (nextContentObject.content === current?.content) {
       console.error("double");
       handleNext();
     } else
-      setCurrent(prev => nextCharacter)
+      setCurrent(nextContentObject)
   }
 
   const handleMenuOpen = (event: MouseEvent<HTMLElement>) => {
@@ -46,71 +81,34 @@ export default function Layout() {
     e.stopPropagation();
     console.log(item);
     setAnchorEl(null);
-    switch(item) {
-      case -1 : {
-        setContentList(oneLetter.sound);
-        setHeading("ধ্বনি")
-        break;
-      }
-      case 0 : {
-        setContentList(oneLetter.oneLetterWords);
-        setHeading("কার বিহীন শব্দ")
-        break;
-      }
-      case 1: {
-        setContentList(oneLetter.aKar);
-        setHeading("আ-কার")
-        break;
-      }
-      case 2: {
-        setContentList(oneLetter.aKar.concat(oneLetter.hosroEKar));
-        setHeading("আ-কার + ই-কার")
-        break;
-      }
-      case 3: {
-        setContentList(oneLetter.aKar.concat(oneLetter.hosroEKar, oneLetter.dirghoEKar));
-        setHeading("আ-কার + ই-কার + ঈ-কার")
-        break;
-      }
-      case 4: {
-        setContentList(oneLetter.aKar.concat(oneLetter.hosroEKar, oneLetter.dirghoEKar, oneLetter.hosroUKar));
-        setHeading("আ-কার + ই-কার + ঈ-কার + উ-কার")
-        break;
-      }
-      case 5: {
-        setContentList(oneLetter.aKar.concat(oneLetter.hosroEKar, oneLetter.dirghoEKar, oneLetter.hosroUKar, oneLetter.dirghoUKar));
-        setHeading("আ-কার + ই-কার + ঈ-কার + উ-কার + ঊ-কার")
-        break;
-      }
-      case 6: {
-        setContentList(oneLetter.aKar.concat(oneLetter.hosroEKar, oneLetter.dirghoEKar, oneLetter.hosroUKar, oneLetter.dirghoUKar, oneLetter.rhiKar));
-        setHeading("আ-কার + ই-কার + ঈ-কার + উ-কার + ঊ-কার + ঋ-কার")
-        break;
-      }
-      case 7: {
-        setContentList(oneLetter.aKar.concat(oneLetter.hosroEKar, oneLetter.dirghoEKar, oneLetter.hosroUKar, oneLetter.dirghoUKar, oneLetter.rhiKar, oneLetter.eKar));
-        setHeading("আ-কার + ই-কার + ঈ-কার + উ-কার + ঊ-কার + ঋ-কার + এ-কার")
-        break;
-      }
-      case 8: {
-        setContentList(oneLetter.aKar.concat(oneLetter.hosroEKar, oneLetter.dirghoEKar, oneLetter.hosroUKar, oneLetter.dirghoUKar, oneLetter.rhiKar, oneLetter.eKar, oneLetter.oiKar));
-        setHeading("আ-কার + ই-কার + ঈ-কার + উ-কার + ঊ-কার + ঋ-কার + এ-কার + ঐ-কার")
-        break;
-      }
-      case 9: {
-        setContentList(oneLetter.aKar.concat(oneLetter.hosroEKar, oneLetter.dirghoEKar, oneLetter.hosroUKar, oneLetter.dirghoUKar, oneLetter.rhiKar, oneLetter.eKar, oneLetter.oiKar, oneLetter.oKar));
-        setHeading("আ-কার + ই-কার + ঈ-কার + উ-কার + ঊ-কার + ঋ-কার + এ-কার + ঐ-কার + ও-কার")
-        break;
-      }
-      case 10: {
-        setContentList(oneLetter.aKar.concat(oneLetter.hosroEKar, oneLetter.dirghoEKar, oneLetter.hosroUKar, oneLetter.dirghoUKar, oneLetter.rhiKar, oneLetter.eKar, oneLetter.oiKar, oneLetter.oKar, oneLetter.ouKar));
-        setHeading("আ-কার + ই-কার + ঈ-কার + উ-কার + ঊ-কার + ঋ-কার  + এ-কার + ঐ-কার + ও-কার + ঔ-কার")
-        break;
-      }
-      default: {
-        return;
-      }
+  };
+
+  const handleToggle = (value: number) => () => {
+    const currentIndex = checked.indexOf(value);
+    const newChecked = [...checked];
+
+    if (currentIndex === -1) {
+      newChecked.push(value);
+
+      //new content list need to add in contentList state
+      setContentList(prev => {
+        const newItem = bangla.find(item => item.id === value);
+        if (newItem) {
+          return [...prev, newItem];
+        }
+        return prev;
+      });
+
+    } else {
+      newChecked.splice(currentIndex, 1);
+
+      //remove the content list from the contentList state
+      setContentList(prev => prev.filter(item => item.id !== value));
     }
+
+    console.log(newChecked)
+
+    setChecked(newChecked);
   };
 
   return (
@@ -130,21 +128,41 @@ export default function Layout() {
           <Menu
             anchorEl={anchorEl}
             open={open}
-            onClose={(e: MouseEvent<HTMLLIElement>) => handleMenuClose(e,0)}
-            // MenuListProps={{
-            //   'aria-labelledby': 'basic-button',
-            // }}
+            onClose={(e: MouseEvent<HTMLLIElement>) => handleMenuClose(e, 0)}
+          // MenuListProps={{
+          //   'aria-labelledby': 'basic-button',
+          // }}
           >
             <MenuItem>
               <List
                 component="nav"
               >
-                <ListItemButton>
-                  <ListItemText primary="sample" />
-                </ListItemButton>
+                {
+                  bangla.map((lesson) => {
+                    const labelId = `checkbox-list-secondary-label-${lesson.id}`;
+                    return (
+                      <ListItem
+                        key={lesson.id}
+                        secondaryAction={
+                          <Checkbox
+                            edge="end"
+                            onChange={handleToggle(lesson.id)}
+                            checked={checked.indexOf(lesson.id) !== -1}
+                            inputProps={{ 'aria-labelledby': labelId }}
+                          />
+                        }
+                      >
+                        <ListItemButton>
+                          <ListItemText id={labelId} primary={lesson.itemName} />
+                        </ListItemButton>
+                      </ListItem>
+                    )
+                  })
+                }
+
               </List>
             </MenuItem>
-            <MenuItem onClick={(e: MouseEvent<HTMLLIElement>) => handleMenuClose(e, -1)}>ধ্বনি</MenuItem>
+            {/* <MenuItem onClick={(e: MouseEvent<HTMLLIElement>) => handleMenuClose(e, -1)}>ধ্বনি</MenuItem>
             <MenuItem onClick={(e: MouseEvent<HTMLLIElement>) => handleMenuClose(e, 0)}>কার বিহীন শব্দ</MenuItem>
             <MenuItem onClick={(e: MouseEvent<HTMLLIElement>) => handleMenuClose(e, 1)}>া</MenuItem>
             <MenuItem onClick={(e: MouseEvent<HTMLLIElement>) => handleMenuClose(e, 2)}>া +  ি</MenuItem>
@@ -155,7 +173,7 @@ export default function Layout() {
             <MenuItem onClick={(e: MouseEvent<HTMLLIElement>) => handleMenuClose(e, 7)}>া +  ি +  ী +  ু +  ূ +  ৃ +  ে</MenuItem>
             <MenuItem onClick={(e: MouseEvent<HTMLLIElement>) => handleMenuClose(e, 8)}>া +  ি +  ী +  ু +  ূ +  ৃ +  ে +  ৈ</MenuItem>
             <MenuItem onClick={(e: MouseEvent<HTMLLIElement>) => handleMenuClose(e, 9)}>া +  ি +  ী +  ু +  ূ +  ৃ +  ে +  ৈ +  ো</MenuItem>
-            <MenuItem onClick={(e: MouseEvent<HTMLLIElement>) => handleMenuClose(e, 10)}>া +  ি +  ী +  ু +  ূ +  ৃ +  ে +  ৈ +  ো + ৌ</MenuItem>
+            <MenuItem onClick={(e: MouseEvent<HTMLLIElement>) => handleMenuClose(e, 10)}>া +  ি +  ী +  ু +  ূ +  ৃ +  ে +  ৈ +  ো + ৌ</MenuItem> */}
           </Menu>
         </Toolbar>
       </AppBar>
@@ -171,21 +189,31 @@ export default function Layout() {
           </Typography>
           <Box sx={{ textAlign: 'center' }}>
             <Typography variant="h1" className={myFont.className}>
-              {current}
+              {current?.content}
             </Typography>
           </Box>
           <Box className='flex justify-around p-4'>
-            <Button variant='contained' color="success">
+            {/* <Button variant='contained' color="success">
               Correct
             </Button>
             <Button variant='contained' color="error">
               Wrong
-            </Button>
-            <Button variant='contained' color="primary" onClick={handleNext}>
-              Next
-            </Button>
+            </Button> */}
+            {
+              contentList.length > 0 && (
+                <Button variant='contained' color="primary" onClick={handleNext}>
+                  Next
+                </Button>
+              )
+            }
+
           </Box>
         </Paper>
+
+        <Box sx={{ mt: 2}}>
+          <Typography variant='h5'>নির্দেশনা</Typography>
+          <Typography>{current?.instruction}</Typography>
+        </Box>
       </Box>
 
     </>
